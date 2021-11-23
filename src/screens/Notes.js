@@ -6,7 +6,7 @@ import routes from "../constants/routes";
 function Notes(props) {
   return (
     <>
-      <div>Here are your notes</div>
+      <div style={{ borderTop: "1px solid black" }}>Here are your notes</div>
       <Link to={routes.AddNote}>
         <Button>+</Button>
       </Link>
