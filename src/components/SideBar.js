@@ -15,11 +15,15 @@ import {
   ListItemText,
   Toolbar,
 } from "@material-ui/core";
+import { useDispatch } from "react-redux";
+import { showAll, showFavorites } from "../store/notes";
 
 const drawerWidth = 240;
 
 function SideBar(props) {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
+
   return (
     <>
       <AppBar position="fixed" open={open}>
@@ -49,19 +53,35 @@ function SideBar(props) {
         open={open}
       >
         <Toolbar>
-          <IconButton onClick={() => setOpen(false)}>
+          <IconButton
+            onClick={() => {
+              setOpen(false);
+            }}
+          >
             <ChevronLeftIcon />
           </IconButton>
         </Toolbar>
         <Divider />
         <List>
-          <ListItem button onClick={() => setOpen(false)}>
+          <ListItem
+            button
+            onClick={() => {
+              dispatch(showAll());
+              setOpen(false);
+            }}
+          >
             <ListItemIcon>
               <ViewListIcon color="secondary" />
             </ListItemIcon>
             <ListItemText primary="All Notes" />
           </ListItem>
-          <ListItem button onClick={() => setOpen(false)}>
+          <ListItem
+            button
+            onClick={() => {
+              dispatch(showFavorites());
+              setOpen(false);
+            }}
+          >
             <ListItemIcon>
               <StarIcon style={{ fill: "gold" }} />
             </ListItemIcon>
