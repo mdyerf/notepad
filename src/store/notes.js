@@ -61,7 +61,7 @@ const slice = createSlice({
       });
     },
     deleteNote: (state, action) => {
-      state.notes = state.notes.filter((note) => note.id !== action.payload.id);
+      state.notes = state.notes.filter((note) => note.id.toString() !== action.payload.id);
     },
     switchStar: (state, action) => {
       state.notes.map((note) => {

@@ -9,6 +9,7 @@ import routes from "../constants/routes";
 import { getNotes, switchStar } from "../store/notes";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { DescriptionOutlined } from "@material-ui/icons";
 
 import "../App.css";
 
@@ -63,7 +64,17 @@ function Notes(props) {
             </Grid>
           ))}
       </Grid>
-
+      {notes.length === 0 && (
+        <DescriptionOutlined
+          style={{
+            fill: "gray",
+            fontSize: "10vw",
+            position: "absolute",
+            top: "40%",
+            left: "46.5%",
+          }}
+        />
+      )}
       <Link to={routes.AddNote}>
         <Button
           variant="contained"

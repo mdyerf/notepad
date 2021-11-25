@@ -1,12 +1,19 @@
-import { Button, Snackbar, TextField } from "@material-ui/core";
-import { ChevronLeft, NoteAdd } from "@material-ui/icons";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  Snackbar,
+  TextField,
+} from "@material-ui/core";
+import { ChevronLeft, Delete, NoteAdd } from "@material-ui/icons";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import routes from "../constants/routes";
 import { useSelector } from "react-redux";
-import { addNote, editNote, getNoteById } from "../store/notes";
+import { addNote, deleteNote, editNote, getNoteById } from "../store/notes";
 import Alert from "@material-ui/lab/Alert";
 
 function AddNote(props) {
@@ -16,6 +23,9 @@ function AddNote(props) {
   const [text, setText] = useState("");
   const [toastOpen, setToastOpen] = useState(false);
   const [error, setError] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const navigate = useNavigate();
 
   const note = useSelector(getNoteById(id));
   const dispatch = useDispatch();
@@ -39,6 +49,44 @@ function AddNote(props) {
           Back
         </Button>
       </Link>
+      {id && (
+        <>
+          <Button
+            style={{ margin: 20 }}
+            variant="contained"
+            color="secondary"
+            startIcon={<Delete />}
+            onClick={() => setDialogOpen(true)}
+          >
+            Delete
+          </Button>
+          <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
+            <DialogTitle>Are you sure?</DialogTitle>
+            <DialogActions>
+              <Button
+                onClick={() => {
+                  dispatch(deleteNote({ id }));
+                  setDialogOpen(false);
+                  navigate(routes.Home);
+                }}
+                variant="contained"
+                color="secondary"
+                startIcon={<Delete />}
+              >
+                Yes
+              </Button>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => setDialogOpen(false)}
+                autoFocus
+              >
+                No
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </>
+      )}
       <form
         className="form"
         onSubmit={(e) => {
@@ -87,7 +135,7 @@ function AddNote(props) {
           variant="filled"
           sx={{ width: "100%" }}
         >
-          {id? "Edited" : "Note Added"}
+          {id ? "Edited" : "Note Added"}
         </Alert>
       </Snackbar>
       <Snackbar open={error} autoHideDuration={3000}>
