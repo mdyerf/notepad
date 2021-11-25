@@ -87,7 +87,7 @@ function AddNote(props) {
           variant="filled"
           sx={{ width: "100%" }}
         >
-          Note Added
+          {id? "Edited" : "Note Added"}
         </Alert>
       </Snackbar>
       <Snackbar open={error} autoHideDuration={3000}>

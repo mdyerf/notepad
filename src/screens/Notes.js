@@ -7,13 +7,16 @@ import { limitString } from "../logic/string";
 import { Link } from "react-router-dom";
 import routes from "../constants/routes";
 import { getNotes, switchStar } from "../store/notes";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 import "../App.css";
-import { useDispatch } from "react-redux";
 
 function Notes(props) {
   const notes = useSelector(getNotes);
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   function handleSwitchStar(id) {
     dispatch(switchStar({ id }));
@@ -32,19 +35,25 @@ function Notes(props) {
       >
         {notes &&
           notes.map((note) => (
-            <Grid key={note.id} item>
+            <Grid
+              key={note.id}
+              item
+              onClick={() => navigate(`${routes.AddNote}/${note.id}`)}
+            >
               <div className="note-card">
                 {note.isFavorite ? (
                   <StarIcon
                     style={{ fill: "gold" }}
-                    onClick={() => {
+                    onClick={(e) => {
                       handleSwitchStar(note.id);
+                      e.stopPropagation();
                     }}
                   />
                 ) : (
                   <StarBorderIcon
-                    onClick={() => {
+                    onClick={(e) => {
                       handleSwitchStar(note.id);
+                      e.stopPropagation();
                     }}
                   />
                 )}

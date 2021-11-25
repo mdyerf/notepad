@@ -17,6 +17,7 @@ function App() {
           <Routes>
             <Route exact path={routes.Home} element={<Notes />} />
             <Route path={routes.AddNote} element={<AddNote />} />
+            <Route path={`${routes.AddNote}/:id`} element={<AddNote />} />
           </Routes>
         </BrowserRouter>
       </div>

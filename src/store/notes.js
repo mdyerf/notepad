@@ -55,7 +55,7 @@ const slice = createSlice({
       });
     },
     editNote: (state, action) => {
-      state.notes.map((note) => {
+      state.notes = state.notes.map((note) => {
         if (note.id === action.payload.id) return action.payload;
         return note;
       });
@@ -87,7 +87,7 @@ const getNotes = createSelector(
 const getNoteById = (id) =>
   createSelector(
     (state) => state.notes,
-    (notes) => notes.find((note) => note.id === id)
+    (notes) => notes.find((note) => note.id.toString() === id)
   );
 
 export default slice.reducer;
