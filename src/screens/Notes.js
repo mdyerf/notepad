@@ -4,11 +4,10 @@ import Grid from "@material-ui/core/Grid";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import StarIcon from "@material-ui/icons/Star";
 import { limitString } from "../utils/limitString";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import routes from "../constants/routes";
 import { getNotes, switchStar } from "../store/notes";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { DescriptionOutlined } from "@material-ui/icons";
 
 import "../App.css";
