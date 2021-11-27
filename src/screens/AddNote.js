@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Dialog,
@@ -8,10 +9,8 @@ import {
   TextField,
 } from "@material-ui/core";
 import { ChevronLeft, Delete, NoteAdd } from "@material-ui/icons";
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import routes from "../constants/routes";
 import { useSelector } from "react-redux";
 import { addNote, deleteNote, editNote, getNoteById } from "../store/notes";
