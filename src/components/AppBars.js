@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import MenuIcon from "@material-ui/icons/Menu";
 import {
@@ -60,8 +60,9 @@ function AppBars(props) {
         </Toolbar>
         <Divider />
         <List>
-          {appBarListItems.map((li) => (
+          {appBarListItems.map((li, index) => (
             <ListItem
+              key={index}
               button
               onClick={() => {
                 li.onClick(dispatch);

@@ -14,6 +14,7 @@ import "../App.css";
 
 function Notes(props) {
   const notes = useSelector(getNotes);
+
   const dispatch = useDispatch();
 
   const navigate = useNavigate();

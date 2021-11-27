@@ -79,14 +79,14 @@ const slice = createSlice({
 });
 
 const getNotes = createSelector(
-  (state) => state.notes,
-  (state) => state.showFavoritesOnly,
+  (state) => state.notes.notes,
+  (state) => state.notes.showFavoritesOnly,
   (notes, showFavoritesOnly) =>
     showFavoritesOnly ? notes.filter((note) => note.isFavorite) : notes
 );
 const getNoteById = (id) =>
   createSelector(
-    (state) => state.notes,
+    (state) => state.notes.notes,
     (notes) => notes.find((note) => note.id.toString() === id)
   );
 

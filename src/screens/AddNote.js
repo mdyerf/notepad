@@ -4,7 +4,6 @@ import {
   Dialog,
   DialogActions,
   DialogTitle,
-  Snackbar,
   TextareaAutosize,
   TextField,
 } from "@material-ui/core";
@@ -14,15 +13,14 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import routes from "../constants/routes";
 import { useSelector } from "react-redux";
 import { addNote, deleteNote, editNote, getNoteById } from "../store/notes";
-import Alert from "@material-ui/lab/Alert";
+import { error, success } from "../store/toast";
+import messages from "../constants/messages";
 
 function AddNote(props) {
   const { id } = useParams();
 
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
-  const [toastOpen, setToastOpen] = useState(false);
-  const [error, setError] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const navigate = useNavigate();
@@ -35,8 +33,7 @@ function AddNote(props) {
       if (note) {
         setTitle(note.title);
         setText(note.text);
-      }
-      else navigate(routes.Home);
+      } else navigate(routes.Home);
     }
   }, [id, note, navigate]);
 
@@ -47,18 +44,22 @@ function AddNote(props) {
   }
 
   function handleSubmit(e) {
-      e.preventDefault();
-      if (title.trim() === "" || text.trim() === "") {
-        setToastOpen(false);
-        setError(true);
-        return;
-      }
-      if (id) dispatch(editNote({ ...note, title, text }));
-      else dispatch(addNote({ title, text }));
-      setText("");
-      setTitle("");
-      setError(false);
-      setToastOpen(true);
+    e.preventDefault();
+    if (title.trim() === "" || text.trim() === "") {
+      dispatch(error({ message: messages.emptyField }));
+      return;
+    }
+    if (id) {
+      dispatch(editNote({ ...note, title, text }));
+      dispatch(success({message: messages.noteEdited}));
+      navigate(routes.Home);
+    } else {
+      dispatch(addNote({ title, text }));
+      dispatch(success({message: messages.noteAdded}));
+      navigate(routes.Home);
+    }
+    setText("");
+    setTitle("");
   }
 
   return (
@@ -107,10 +108,7 @@ function AddNote(props) {
           </Dialog>
         </>
       )}
-      <form
-        className="form"
-        onSubmit={handleSubmit}
-      >
+      <form className="form" onSubmit={handleSubmit}>
         <TextField
           style={{ margin: 10, width: "50%" }}
           value={title}
@@ -119,8 +117,8 @@ function AddNote(props) {
           variant="outlined"
         />
         <TextareaAutosize
-          rows={8}
-          style={{ margin: 10, width: "100%", padding:10 }}
+          minRows={8}
+          style={{ margin: 10, width: "100%", padding: 10 }}
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="text"
@@ -136,26 +134,6 @@ function AddNote(props) {
           Submit
         </Button>
       </form>
-      <Snackbar open={toastOpen} autoHideDuration={3000}>
-        <Alert
-          onClose={() => setToastOpen(false)}
-          severity="success"
-          variant="filled"
-          sx={{ width: "100%" }}
-        >
-          {id ? "Edited" : "Note Added"}
-        </Alert>
-      </Snackbar>
-      <Snackbar open={error} autoHideDuration={3000}>
-        <Alert
-          onClose={() => setError(false)}
-          severity="error"
-          variant="filled"
-          sx={{ width: "100%" }}
-        >
-          Please fill all inputs
-        </Alert>
-      </Snackbar>
     </>
   );
 }

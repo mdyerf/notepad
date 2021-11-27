@@ -1,8 +1,9 @@
-import {configureStore} from '@reduxjs/toolkit';
+import {configureStore, combineReducers} from '@reduxjs/toolkit';
 import notes from './notes';
+import toast from './toast';
 
 const store = configureStore({
-    reducer: notes
+    reducer: combineReducers({notes, toast})
 });
 
 export default store;
