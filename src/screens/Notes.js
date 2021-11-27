@@ -19,9 +19,10 @@ function Notes(props) {
 
   const navigate = useNavigate();
 
-  function handleSwitchStar(id) {
+  const handleSwitchStar = (id) => (e) => {
     dispatch(switchStar({ id }));
-  }
+    e.stopPropagation();
+  };
 
   return (
     <>
@@ -45,18 +46,10 @@ function Notes(props) {
                 {note.isFavorite ? (
                   <StarIcon
                     style={{ fill: "gold" }}
-                    onClick={(e) => {
-                      handleSwitchStar(note.id);
-                      e.stopPropagation();
-                    }}
+                    onClick={handleSwitchStar(note.id)}
                   />
                 ) : (
-                  <StarBorderIcon
-                    onClick={(e) => {
-                      handleSwitchStar(note.id);
-                      e.stopPropagation();
-                    }}
-                  />
+                  <StarBorderIcon onClick={handleSwitchStar(note.id)} />
                 )}
                 <h3>{note.title.toUpperCase()}</h3>
                 <p>{limitString(note.text)}</p>
