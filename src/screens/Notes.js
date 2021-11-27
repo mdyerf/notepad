@@ -56,30 +56,9 @@ function Notes(props) {
             </Grid>
           ))}
       </Grid>
-      {notes.length === 0 && (
-        <DescriptionOutlined
-          style={{
-            fill: "gray",
-            fontSize: "10vw",
-            position: "absolute",
-            top: "40%",
-            left: "46.5%",
-          }}
-        />
-      )}
+      {notes.length === 0 && <DescriptionOutlined className="no-note-icon" />}
       <Link to={routes.AddNote}>
-        <Button
-          variant="contained"
-          color="secondary"
-          style={{
-            position: "fixed",
-            alignSelf: "center",
-            bottom: 30,
-            left: "50%",
-            fontWeight: "bold",
-            borderRadius: 20,
-          }}
-        >
+        <Button variant="contained" color="secondary" className="add-btn">
           +
         </Button>
       </Link>
