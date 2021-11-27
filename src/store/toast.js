@@ -6,10 +6,14 @@ const slice = createSlice({
   initialState: { text: "", type: "", open: false },
   reducers: {
     error: (state, action) => {
-      state = { open: true, text: action.payload.message, type: "error" };
+      state.open = true;
+      state.text = action.payload.message;
+      state.type = "error";
     },
     success: (state, action) => {
-      state = { open: true, text: action.payload.message, type: "success" };
+      state.open = true;
+      state.text = action.payload.message;
+      state.type = "success";
     },
     close: (state, action) => {
       state.open = false;

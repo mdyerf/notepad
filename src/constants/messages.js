@@ -3,4 +3,5 @@ export default Object.freeze({
   noteAdded: "Note added successfuly",
   noteEdited: "Note Edited",
   idNotFound: "id note found",
+  noteDeleted: "Note Deleted"
 });

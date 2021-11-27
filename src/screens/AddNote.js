@@ -33,13 +33,17 @@ function AddNote(props) {
       if (note) {
         setTitle(note.title);
         setText(note.text);
-      } else navigate(routes.Home);
+      } else {
+        dispatch(error({ message: messages.idNotFound }));
+        navigate(routes.Home);
+      }
     }
-  }, [id, note, navigate]);
+  }, [id, note, navigate, dispatch]);
 
   function handleDelete() {
     dispatch(deleteNote({ id }));
     setDialogOpen(false);
+    dispatch(success({ message: messages.noteDeleted }));
     navigate(routes.Home);
   }
 
@@ -51,11 +55,11 @@ function AddNote(props) {
     }
     if (id) {
       dispatch(editNote({ ...note, title, text }));
-      dispatch(success({message: messages.noteEdited}));
+      dispatch(success({ message: messages.noteEdited }));
       navigate(routes.Home);
     } else {
       dispatch(addNote({ title, text }));
-      dispatch(success({message: messages.noteAdded}));
+      dispatch(success({ message: messages.noteAdded }));
       navigate(routes.Home);
     }
     setText("");
