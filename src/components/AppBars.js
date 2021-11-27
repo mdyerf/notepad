@@ -1,8 +1,6 @@
 import React from "react";
 import { useState } from "react";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ViewListIcon from "@material-ui/icons/ViewList";
-import StarIcon from "@material-ui/icons/Star";
 import MenuIcon from "@material-ui/icons/Menu";
 import {
   AppBar,
@@ -16,7 +14,7 @@ import {
   Toolbar,
 } from "@material-ui/core";
 import { useDispatch } from "react-redux";
-import { showAll, showFavorites } from "../store/notes";
+import appBarListItems from "../constants/appBarListItems";
 
 const drawerWidth = 240;
 
@@ -63,30 +61,18 @@ function AppBars(props) {
         </Toolbar>
         <Divider />
         <List>
-          <ListItem
-            button
-            onClick={() => {
-              dispatch(showAll());
-              setOpen(false);
-            }}
-          >
-            <ListItemIcon>
-              <ViewListIcon color="secondary" />
-            </ListItemIcon>
-            <ListItemText primary="All Notes" />
-          </ListItem>
-          <ListItem
-            button
-            onClick={() => {
-              dispatch(showFavorites());
-              setOpen(false);
-            }}
-          >
-            <ListItemIcon>
-              <StarIcon style={{ fill: "gold" }} />
-            </ListItemIcon>
-            <ListItemText primary="Favorites" />
-          </ListItem>
+          {appBarListItems.map((li) => (
+            <ListItem
+              button
+              onClick={() => {
+                li.onClick(dispatch);
+                setOpen(false);
+              }}
+            >
+              <ListItemIcon>{li.Icon}</ListItemIcon>
+              <ListItemText primary={li.text} />
+            </ListItem>
+          ))}
         </List>
       </Drawer>
     </>
