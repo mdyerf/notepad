@@ -4,6 +4,7 @@ import {
   DialogActions,
   DialogTitle,
   Snackbar,
+  TextareaAutosize,
   TextField,
 } from "@material-ui/core";
 import { ChevronLeft, Delete, NoteAdd } from "@material-ui/icons";
@@ -32,10 +33,34 @@ function AddNote(props) {
 
   useEffect(() => {
     if (id) {
-      setTitle(note.title);
-      setText(note.text);
+      if (note) {
+        setTitle(note.title);
+        setText(note.text);
+      }
+      else navigate(routes.Home);
     }
-  }, [id, note]);
+  }, [id, note, navigate]);
+
+  function handleDelete() {
+    dispatch(deleteNote({ id }));
+    setDialogOpen(false);
+    navigate(routes.Home);
+  }
+
+  function handleSubmit(e) {
+      e.preventDefault();
+      if (title.trim() === "" || text.trim() === "") {
+        setToastOpen(false);
+        setError(true);
+        return;
+      }
+      if (id) dispatch(editNote({ ...note, title, text }));
+      else dispatch(addNote({ title, text }));
+      setText("");
+      setTitle("");
+      setError(false);
+      setToastOpen(true);
+  }
 
   return (
     <>
@@ -64,11 +89,7 @@ function AddNote(props) {
             <DialogTitle>Are you sure?</DialogTitle>
             <DialogActions>
               <Button
-                onClick={() => {
-                  dispatch(deleteNote({ id }));
-                  setDialogOpen(false);
-                  navigate(routes.Home);
-                }}
+                onClick={handleDelete}
                 variant="contained"
                 color="secondary"
                 startIcon={<Delete />}
@@ -89,20 +110,7 @@ function AddNote(props) {
       )}
       <form
         className="form"
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (title.trim() === "" || text.trim() === "") {
-            setToastOpen(false);
-            setError(true);
-            return;
-          }
-          if (id) dispatch(editNote({ ...note, title, text }));
-          else dispatch(addNote({ title, text }));
-          setText("");
-          setTitle("");
-          setError(false);
-          setToastOpen(true);
-        }}
+        onSubmit={handleSubmit}
       >
         <TextField
           style={{ margin: 10, width: "50%" }}
@@ -111,11 +119,12 @@ function AddNote(props) {
           label="title"
           variant="outlined"
         />
-        <TextField
-          style={{ margin: 10, width: "100%" }}
+        <TextareaAutosize
+          rows={8}
+          style={{ margin: 10, width: "100%", padding:10 }}
           value={text}
           onChange={(e) => setText(e.target.value)}
-          label="text"
+          placeholder="text"
           variant="outlined"
         />
         <Button
