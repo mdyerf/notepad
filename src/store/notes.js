@@ -68,7 +68,7 @@ const getNoteById = (id) =>
   );
 
 const getMaxId = createSelector(
-  (state) => state.notes.notes,
+  (state) => state.notes,
   (notes) => Math.max(0, ...notes.map((n) => n.id))
 );
 
