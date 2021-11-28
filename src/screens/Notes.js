@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "@material-ui/core";
+import { Button, makeStyles } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import StarIcon from "@material-ui/icons/Star";
@@ -12,7 +12,39 @@ import { DescriptionOutlined } from "@material-ui/icons";
 
 import "../App.css";
 
+const useStyles = makeStyles({
+  noteCard: {
+    maxWidth: 250,
+    backgroundColor: "whitesmoke",
+    boxShadow: "3px 3px 7px 0px #8080804f",
+    padding: 15,
+    height: 300,
+    overflow: "hidden",
+    cursor: 'pointer',
+    "&:hover": {
+      backgroundColor: "rgb(231, 231, 231)",
+    },
+  },
+  noNoteIcon: {
+    fill: "gray",
+    fontSize: "10vw",
+    position: "absolute",
+    top: "40%",
+    left: "46.5%",
+  },
+  addBtn: {
+    position: "fixed",
+    alignSelf: "center",
+    bottom: 30,
+    left: "50%",
+    fontWeight: "bold",
+    borderRadius: 20,
+  },
+});
+
 function Notes(props) {
+  const styles = useStyles(props);
+
   const notes = useSelector(getNotes);
 
   const dispatch = useDispatch();
@@ -42,7 +74,7 @@ function Notes(props) {
               item
               onClick={() => navigate(`${routes.AddNote}/${note.id}`)}
             >
-              <div className="note-card">
+              <div className={styles.noteCard}>
                 {note.isFavorite ? (
                   <StarIcon
                     style={{ fill: "gold" }}
@@ -57,9 +89,11 @@ function Notes(props) {
             </Grid>
           ))}
       </Grid>
-      {notes.length === 0 && <DescriptionOutlined className="no-note-icon" />}
+      {notes.length === 0 && (
+        <DescriptionOutlined className={styles.noNoteIcon} />
+      )}
       <Link to={routes.AddNote}>
-        <Button variant="contained" color="secondary" className="add-btn">
+        <Button variant="contained" color="secondary" className={styles.addBtn}>
           +
         </Button>
       </Link>

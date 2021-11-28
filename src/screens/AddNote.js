@@ -4,6 +4,7 @@ import {
   Dialog,
   DialogActions,
   DialogTitle,
+  makeStyles,
   TextareaAutosize,
   TextField,
 } from "@material-ui/core";
@@ -16,7 +17,21 @@ import { addNote, deleteNote, editNote, getNoteById } from "../store/notes";
 import { error, success } from "../store/toast";
 import messages from "../constants/messages";
 
+const useStyles = makeStyles({
+  form: {
+    width: "70%",
+    minWidth: 250,
+    padding: 10,
+    margin: 30,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+  },
+});
+
 function AddNote(props) {
+  const styles = useStyles(props);
+
   const { id } = useParams();
 
   const [title, setTitle] = useState("");
@@ -112,7 +127,7 @@ function AddNote(props) {
           </Dialog>
         </>
       )}
-      <form className="form" onSubmit={handleSubmit}>
+      <form className={styles.form} onSubmit={handleSubmit}>
         <TextField
           style={{ margin: 10, width: "50%" }}
           value={title}
