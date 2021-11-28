@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
 
-let lastId = 7;
 const slice = createSlice({
   name: "notes",
   initialState: {
@@ -48,7 +47,7 @@ const slice = createSlice({
   reducers: {
     addNote: (state, action) => {
       state.notes.push({
-        id: ++lastId,
+        id: getMaxId(state) + 1,
         isFavorite: false,
         text: action.payload.text,
         title: action.payload.title,
@@ -89,6 +88,11 @@ const getNoteById = (id) =>
     (state) => state.notes.notes,
     (notes) => notes.find((note) => note.id.toString() === id)
   );
+
+const getMaxId = createSelector(
+  state => state.notes.notes,
+  notes => Math.max(0, ...notes.map(n => n.id))
+);
 
 export default slice.reducer;
 export const {
