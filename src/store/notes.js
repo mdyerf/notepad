@@ -18,30 +18,6 @@ const slice = createSlice({
         text: "this is another note that I have writen about my program which is a bit longer",
         isFavorite: false,
       },
-      {
-        id: 3,
-        title: "program",
-        text: "this is a note that I have writen about my program",
-        isFavorite: true,
-      },
-      {
-        id: 4,
-        title: "another note for program",
-        text: "this is another note that I have writen about my program which is a bit longer this is another note that I have writen about my program which is a bit longer this is another note that I have writen about my program which is a bit longer this is another note that I have writen about my program which is a bit longer this is another note that I have writen about my program which is a bit longer",
-        isFavorite: false,
-      },
-      {
-        id: 5,
-        title: "program",
-        text: "this is a note that I have writen about my program",
-        isFavorite: true,
-      },
-      {
-        id: 6,
-        title: "another note for program",
-        text: "this is another note that I have writen about my program which is a bit longer",
-        isFavorite: false,
-      },
     ],
   },
   reducers: {
@@ -60,7 +36,9 @@ const slice = createSlice({
       });
     },
     deleteNote: (state, action) => {
-      state.notes = state.notes.filter((note) => note.id.toString() !== action.payload.id);
+      state.notes = state.notes.filter(
+        (note) => note.id.toString() !== action.payload.id
+      );
     },
     switchStar: (state, action) => {
       state.notes.map((note) => {
@@ -90,8 +68,8 @@ const getNoteById = (id) =>
   );
 
 const getMaxId = createSelector(
-  state => state.notes.notes,
-  notes => Math.max(0, ...notes.map(n => n.id))
+  (state) => state.notes.notes,
+  (notes) => Math.max(0, ...notes.map((n) => n.id))
 );
 
 export default slice.reducer;
